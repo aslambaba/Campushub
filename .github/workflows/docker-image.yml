@@ -1,0 +1,39 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      FRONTEND_REGISTRY_NAME: "aslambaba/campushub-frontend"
+      BACKEND_REGISTRY_NAME: "aslambaba/campushub-backend"
+      
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push FRONTEND image
+      run: |
+        docker build -t $FRONTEND_REGISTRY_NAME:v1 ./frontend
+        docker tag $FRONTEND_REGISTRY_NAME:v1 $FRONTEND_REGISTRY_NAME:latest
+        # PUSH BOTH IMAGES
+        docker push $FRONTEND_REGISTRY_NAME:v1
+        docker push $FRONTEND_REGISTRY_NAME:latest
+
+    - name: Build and push BACKEND image
+      run: |
+        docker build -t $BACKEND_REGISTRY_NAME:v1 ./backend
+        docker tag $BACKEND_REGISTRY_NAME:v1 $BACKEND_REGISTRY_NAME:latest
+        # PUSH BOTH IMAGES
+        docker push $BACKEND_REGISTRY_NAME:v1
+        docker push $BACKEND_REGISTRY_NAME:latest
