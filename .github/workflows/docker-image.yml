@@ -15,6 +15,8 @@ jobs:
     env:
       FRONTEND_REGISTRY_NAME: "aslambaba/campushub-frontend"
       BACKEND_REGISTRY_NAME: "aslambaba/campushub-backend"
+      FRONTEND_VESION: "v1"
+      BACKEND_VERSION: "v1"
       
     steps:
     - uses: actions/checkout@v3
@@ -24,16 +26,16 @@ jobs:
 
     - name: Build and push FRONTEND image
       run: |
-        docker build -t $FRONTEND_REGISTRY_NAME:v1 ./frontend
-        docker tag $FRONTEND_REGISTRY_NAME:v1 $FRONTEND_REGISTRY_NAME:latest
+        docker build -t $FRONTEND_REGISTRY_NAME:$FRONTEND_VESION ./frontend
+        docker tag $FRONTEND_REGISTRY_NAME:$FRONTEND_VESION $FRONTEND_REGISTRY_NAME:latest
         # PUSH BOTH IMAGES
-        docker push $FRONTEND_REGISTRY_NAME:v1
+        docker push $FRONTEND_REGISTRY_NAME:$FRONTEND_VESION
         docker push $FRONTEND_REGISTRY_NAME:latest
 
     - name: Build and push BACKEND image
       run: |
-        docker build -t $BACKEND_REGISTRY_NAME:v1 ./backend
-        docker tag $BACKEND_REGISTRY_NAME:v1 $BACKEND_REGISTRY_NAME:latest
+        docker build -t $BACKEND_REGISTRY_NAME:$BACKEND_VERSION ./backend
+        docker tag $BACKEND_REGISTRY_NAME:$BACKEND_VERSION $BACKEND_REGISTRY_NAME:latest
         # PUSH BOTH IMAGES
-        docker push $BACKEND_REGISTRY_NAME:v1
+        docker push $BACKEND_REGISTRY_NAME:$BACKEND_VERSION
         docker push $BACKEND_REGISTRY_NAME:latest

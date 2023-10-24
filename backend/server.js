@@ -14,7 +14,7 @@ const redis = new Redis({
 });
 
 // MongoDB Connection
-const mongodbConnection = `mongodb+srv://aslambaba:Qwerty1122@maincluster.k2ox6wo.mongodb.net/`;
+const mongodbConnection = `mongodb+srv://${process.env.mongodbUser}:${process.env.mongodbPass}@maincluster.k2ox6wo.mongodb.net/`;
 const client = new MongoClient(mongodbConnection);
 
 const student = [

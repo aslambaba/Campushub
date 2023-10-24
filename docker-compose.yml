@@ -16,6 +16,10 @@ services:
       - "8000:8000"
     depends_on:
       - redis
+    environment:
+      - BackendPORT= #Add Backend Port Default Port is 8000
+      - mongodbUser= #Add Your MongoDB Cluster Username
+      - mongodbPass= #Add Your MongoDB Cluster Password
   redis:
     container_name: campushub-redis-cache
     image: redis
